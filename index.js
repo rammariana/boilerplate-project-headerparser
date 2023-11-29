@@ -29,11 +29,11 @@ app.get('/api/hello', function (req, res) {
 });
 // My Code Starts Here
 app.get('/api/whoami', function (req, res) {
-  const ipadress = req.clientIp;
+  const ipaddress = req.clientIp;
   const language = req.headers['accept-language'];
   const software = req.headers['user-agent'];
   
-  res.json({ip: ipadress, lang: language, software});
+  res.json({ipaddress: ipaddress, language: language, software: software});
 });
 // listen for requests :)
 var listener = app.listen(process.env.PORT || 3000, function () {
