@@ -3,6 +3,7 @@
 
 // init project
 require('dotenv').config();
+const requestIp = require('request-ip');
 var express = require('express');
 var app = express();
 
@@ -14,6 +15,9 @@ app.use(cors({ optionsSuccessStatus: 200 })); // some legacy browsers choke on 2
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
+// IP
+app.use(requestIp.mw());
+
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
@@ -23,7 +27,14 @@ app.get('/', function (req, res) {
 app.get('/api/hello', function (req, res) {
   res.json({ greeting: 'hello API' });
 });
-
+// My Code Starts Here
+app.get('/api/whoami', function (req, res) {
+  const ipadress = req.clientIp;
+  const language = req.headers['accept-language'];
+  const software = req.headers['user-agent'];
+  
+  res.json({ip: ipadress, lang: language, software});
+});
 // listen for requests :)
 var listener = app.listen(process.env.PORT || 3000, function () {
   console.log('Your app is listening on port ' + listener.address().port);
